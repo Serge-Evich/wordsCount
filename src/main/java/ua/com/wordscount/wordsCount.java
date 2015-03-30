@@ -18,17 +18,25 @@ public class wordsCount {
     public String getIndex() {
         return "index";
     }
+    /**
+     * JSON request for ajax post request
+     * Counting repeated words from request variable text 
+     * ajax request generates from /WEB-INF/jsp/index.jsp page script
+     * @param text
+     * @return
+     */
     @RequestMapping(value = "/getWordsCount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+    @ResponseBody // converts by jackson in json response
     public Map<String, Integer> getWordsCount(@RequestParam String text) {
         Map<String, Integer> map = new HashMap<>();
-
+        //if text not null or not not empty
         if (text != null || !text.isEmpty()) {
-            String[] words = text.replaceAll("\\W+'\\W+|\\+|\\-|\\.|\\,|!|@|#|\\$|%|\\^|\\*|\\(|\\)|;|\\/|<>\"", " ")
-                    .replaceFirst("\\s+", "").split("\\s+");
+            //Remove all special characters and split into words array
+        	String[] words = text.replaceAll("\\W+'\\W+|\\+|\\-|\\.|\\,|!|@|#|\\$|%|\\^|\\*|\\(|\\)|;|\\/|<>\"", " ")
+                    .replaceFirst("^\\s+", "").split("\\s+");
             for (String word : words) {
-                if (word.matches("[A-z+\\']{2,}")) {
-                    System.out.println(word);
+                //Check for words length starting from 2(include words like don't)
+            	if (word.matches("[A-z+\\']{2,}")) {
                     if (map.get(word.toLowerCase()) == null) {
                         map.put(word.toLowerCase(), 1);
                     } else {
@@ -38,11 +46,12 @@ public class wordsCount {
                 }
             }
             Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
+            //remove all words that appears only ones
             while (it.hasNext()) {
                 if (it.next().getValue().equals(1)) it.remove();
             }
         }
-
+       
         return map;
     }
 }
