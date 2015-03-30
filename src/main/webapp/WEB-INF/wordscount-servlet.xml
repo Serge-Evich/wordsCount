@@ -18,7 +18,7 @@ http://www.springframework.org/schema/mvc
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
     </bean>
 
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1" />
         <property name="mediaTypes">
             <map>
@@ -32,7 +32,7 @@ http://www.springframework.org/schema/mvc
         </property>
         <property name="defaultViews">
             <list>
-            <!-- JSON View -->
+
                 <bean
                     class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
                 </bean>
@@ -40,9 +40,9 @@ http://www.springframework.org/schema/mvc
         </property>
         <property name="ignoreAcceptHeader" value="true" />
 
-    </bean>
+    </bean> -->
 
-	
+
 
 	<context:component-scan base-package="ua.com.wordscount" />
 </beans>
