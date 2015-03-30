@@ -28,6 +28,7 @@ public class wordsCount {
                     .replaceFirst("\\s+", "").split("\\s+");
             for (String word : words) {
                 if (word.matches("[A-z+\\']{2,}")) {
+                    System.out.println(word);
                     if (map.get(word.toLowerCase()) == null) {
                         map.put(word.toLowerCase(), 1);
                     } else {
