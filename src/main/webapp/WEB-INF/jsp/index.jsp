@@ -64,8 +64,8 @@
     <body>
         <h1>Please fill in some text</h1>
         <form:form id="textForm" method="post" action="/getWordsCount">
-            <input id="text"  value = ""/>
-            <input type="submit" value="Update CD" />
+            <textarea id="text"  value = ""></textarea>
+            <input type="submit" value="Update" />
 		</form:form>
 		<div id="chart_div"></div>
     </body>
