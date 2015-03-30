@@ -4,27 +4,50 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <html>
    <script type="text/javascript">
-   $(document).ready(function() {
+$(document).ready(function() {
+    var respJson;
+    $('#textForm').submit(function(event) {
+           event.preventDefault();
+           var t = $('#text').val();
+          $.post($('#textForm').attr("action"), {text:t},
+              function(returnedData){
+                 respJson = returnedData;
+                 console.log(respJson);
 
-     $('#textForm').submit(function(event) {
-         event.preventDefault();
+          });
+    });
+    // Load the Visualization API and the piechart package.
+          google.load('visualization', '1.0', {'packages':['corechart']});
 
-         var t = $('#text').val();
-        $.post($('#textForm').attr("action"), {text:t},
-            function(returnedData){
-                 console.log(returnedData);
-        });
+          // Set a callback to run when the Google Visualization API is loaded.
+          google.setOnLoadCallback(drawChart);
 
+          // Callback that creates and populates a data table,
+          // instantiates the pie chart, passes in the data and
+          // draws it.
+          function drawChart() {
 
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Word');
+            data.addColumn('number', 'Count');
+            data.addRows(respJson);
 
+            // Set chart options
+            var options = {'title':'Words count',
+                           'width':400,
+                           'height':300};
 
-     });
-
-   });
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+          }
+  });
    </script>
+
    <head>
         <title>Edit CD</title>
     </head>
@@ -34,5 +57,6 @@
             <input id="text"  value = ""/>
             <input type="submit" value="Update CD" />
 		</form:form>
+		<div id="chart_div"></div>
     </body>
 </html>
