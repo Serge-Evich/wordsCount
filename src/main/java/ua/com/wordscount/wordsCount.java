@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -23,7 +24,19 @@ public class wordsCount {
     @ResponseBody
     public Map<String, Integer> getWordsCount(@RequestParam String text) {
         Map<String, Integer> map = new HashMap<>();
-        map.put(text, 1);
+        String[] words  = text.replaceFirst("\\s+", "").split("\\s+");
+        for (String word : words) {
+            if (map.get(word) == null) {
+                map.put(word, 1);
+            } else {
+                int count = map.get(word);
+                map.put(word, count + 1);
+            }
+        }
+        Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            if (it.next().getValue().equals(1)) it.remove();
+        }
         return map;
     }
 }
